@@ -12,6 +12,7 @@ const ifa_ppn_datamatrix_production = '[)>' + rs_char + '06' + gs_char + '16D201
 const ifa_ppn_datamatrix_production_day = '[)>' + rs_char + '06' + gs_char + '16D20151106' + rs_char + eot_char;
 const ifa_ppn_datamatrix_batch = '[)>' + rs_char + '06' + gs_char + '1T12345ABCD' + rs_char + eot_char;
 const ifa_ppn_datamatrix_serial = '[)>' + rs_char + '06' + gs_char + 'S12345ABCDEF98765' + rs_char + eot_char;
+const ifa_ppn_datamatrix_gtin = '[)>' + rs_char + '06' + gs_char + '8P04150047759334' + rs_char + eot_char;
 const ifa_ppn_datamatrix_combined = '[)>' + rs_char + '06' +
   gs_char + '9N110375286414' +
   gs_char + '1T12345ABCD' +
@@ -27,6 +28,7 @@ describe('parseIFAPPN', function() {
     expect(function() { DrugCodeParser.parseIFAPPN() }).toThrow();
     expect(function() { DrugCodeParser.parseIFAPPN('') }).toThrow();
     expect(function() { DrugCodeParser.parseIFAPPN('ABC') }).toThrow();
+    expect(function() { DrugCodeParser.parseIFAPPN('[))' + rs_char + '0000') }).toThrow();
     expect(function() { DrugCodeParser.parseIFAPPN('[)>' + rs_char + '0000') }).toThrow();
   });
   it('should parse correct serial number data matrix result', function() {
@@ -59,6 +61,10 @@ describe('parseIFAPPN', function() {
   it('should parse correct production date with day data matrix result', function() {
     const real = DrugCodeParser.parseIFAPPN(ifa_ppn_datamatrix_production_day);
     expect(real.production_date).toBe('2015-11-06');
+  });
+  it('should parse correct GTIN/NTIN with day data matrix result', function() {
+    const real = DrugCodeParser.parseIFAPPN(ifa_ppn_datamatrix_gtin);
+    expect(real.gtin_ntin).toBe('04150047759334');
   });
   it('should parse correct combined data matrix result', function() {
     const real = DrugCodeParser.parseIFAPPN(ifa_ppn_datamatrix_combined);
