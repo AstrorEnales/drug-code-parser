@@ -19,7 +19,7 @@
       ppnSum += (j + 2) * ppn.charAt(j).charCodeAt(0);
     }
     return (ppnSum % 97) === parseInt(ppn.substring(ppn.length - 2), 10);
-  }
+  };
 
   DrugCodeParser.validatePZN = function(pzn) {
     if (typeof pzn === 'undefined' || (pzn.length !== 7 && pzn.length !== 8)) {
@@ -32,7 +32,7 @@
       pznSum += (j + weightPadding) * parseInt(pzn.charAt(j), 10);
     }
     return (pznSum % 11) === parseInt(pzn.substring(pzn.length - 1), 10);
-  }
+  };
 
   function parseIFAPPNParts(parts) {
     var result = {};
@@ -83,7 +83,7 @@
       throw new ParseException('The text is not a valid IFA PPN code.');
     }
     return parseIFAPPNParts(parts);
-  }
+  };
 
   /* istanbul ignore next */
   if (typeof exports !== 'undefined') {

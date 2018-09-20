@@ -1,5 +1,8 @@
+// eslint-disable-next-line no-use-before-define
 if (typeof DrugCodeParser === 'undefined') {
   var DrugCodeParser = require('..');
+} else {
+  var DrugCodeParser = this.DrugCodeParser;
 }
 
 const rsChar = String.fromCharCode(30);
