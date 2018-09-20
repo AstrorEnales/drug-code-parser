@@ -8,7 +8,7 @@
   }
 
   var DrugCodeParser = function() {
-  }
+  };
 
   DrugCodeParser.validatePPN = function(ppn) {
     if (typeof ppn === 'undefined' || ppn.length !== 12) {
@@ -16,9 +16,9 @@
     }
     var ppnSum = 0;
     for (var j = 0; j < ppn.length - 2; j++) {
-      ppnSum += (j + 2) * ppn[j].charCodeAt(0);
+      ppnSum += (j + 2) * ppn.charAt(j).charCodeAt(0);
     }
-    return (ppnSum % 97) === parseInt(ppn.substring(ppn.length - 2));
+    return (ppnSum % 97) === parseInt(ppn.substring(ppn.length - 2), 10);
   }
 
   DrugCodeParser.validatePZN = function(pzn) {
@@ -29,15 +29,14 @@
     var weightPadding = 9 - pzn.length;
     var pznSum = 0;
     for (var j = 0; j < pzn.length - 1; j++) {
-      pznSum += (j + weightPadding) * parseInt(pzn[j]);
+      pznSum += (j + weightPadding) * parseInt(pzn.charAt(j), 10);
     }
-    return (pznSum % 11) === parseInt(pzn.substring(pzn.length - 1));
+    return (pznSum % 11) === parseInt(pzn.substring(pzn.length - 1), 10);
   }
 
   function parseIFAPPNParts(parts) {
     var result = {};
-    for (var i = 1; i < parts.length; i++) {
-      var part = parts[i];
+    parts.slice(1).forEach(function(part) {
       if (part.startsWith('9N')) {
         // Product number
         var ppn = part.substring(2);
@@ -49,24 +48,24 @@
         result.batch = part.substring(2);
       } else if (part.startsWith('D')) {
         // Expiration date
-        result.expiration_date = '20' + part.substring(1, 3) + '-' + part.substring(3, 5);
+        result.expirationDate = '20' + part.substring(1, 3) + '-' + part.substring(3, 5);
         if (part.substring(5, 7) !== '00') {
-          result.expiration_date += '-' + part.substring(5, 7);
+          result.expirationDate += '-' + part.substring(5, 7);
         }
       } else if (part.startsWith('16D')) {
         // Production date
-        result.production_date = part.substring(3, 7) + '-' + part.substring(7, 9);
+        result.productionDate = part.substring(3, 7) + '-' + part.substring(7, 9);
         if (part.substring(9, 11) !== '00') {
-          result.production_date += '-' + part.substring(9, 11);
+          result.productionDate += '-' + part.substring(9, 11);
         }
       } else if (part.startsWith('S')) {
         // Serial number
         result.serial = part.substring(1);
       } else if (part.startsWith('8P')) {
         // GTIN/NTIN
-        result.gtin_ntin = part.substring(2);
+        result.gtin = part.substring(2);
       }
-    }
+    });
     return result;
   }
 
@@ -80,7 +79,7 @@
     var endIndex = text.indexOf(String.fromCharCode(30) + String.fromCharCode(4));
     var data = text.substring(4, endIndex);
     var parts = data.split(String.fromCharCode(29));
-    if (parts[0] != '06') {
+    if (parts[0] !== '06') {
       throw new ParseException('The text is not a valid IFA PPN code.');
     }
     return parseIFAPPNParts(parts);
