@@ -25,7 +25,8 @@
     if (typeof pzn === 'undefined' || (pzn.length !== 7 && pzn.length !== 8)) {
       return false;
     }
-    const weightPadding = pzn.length === 7 ? 2 : 1;
+    // PZN-7 starts the weights at 2, while PZN-8 at 1
+    var weightPadding = 9 - pzn.length;
     var pznSum = 0;
     for (var j = 0; j < pzn.length - 1; j++) {
       pznSum += (j + weightPadding) * parseInt(pzn[j]);
@@ -40,19 +41,19 @@
     if (!text.startsWith('[)>') || text.charCodeAt(3) !== 30) {
       throw new ParseException('The text is not a valid IFA PPN code (prefix mismatch).');
     }
-    const endIndex = text.indexOf(String.fromCharCode(30) + String.fromCharCode(4));
-    const data = text.substring(4, endIndex);
-    const parts = data.split(String.fromCharCode(29));
+    var endIndex = text.indexOf(String.fromCharCode(30) + String.fromCharCode(4));
+    var data = text.substring(4, endIndex);
+    var parts = data.split(String.fromCharCode(29));
     if (parts[0] != '06') {
       throw new ParseException('The text is not a valid IFA PPN code.');
     }
     var result = {};
     for (var i = 1; i < parts.length; i++) {
-      const part = parts[i];
+      var part = parts[i];
       if (part.startsWith('9N')) {
         // Product number
-        const ppn = part.substring(2);
-        const pzn = ppn.substring(2, ppn.length - 2);
+        var ppn = part.substring(2);
+        var pzn = ppn.substring(2, ppn.length - 2);
         result.ppn = { value: ppn, valid: DrugCodeParser.validatePPN(ppn) };
         result.pzn = { value: pzn, valid: DrugCodeParser.validatePZN(pzn) };
       } else if (part.startsWith('1T')) {
