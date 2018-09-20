@@ -34,19 +34,7 @@
     return (pznSum % 11) === parseInt(pzn.substring(pzn.length - 1));
   }
 
-  DrugCodeParser.parseIFAPPN = function(text) {
-    if (typeof text === 'undefined' || text.length < 8) {
-      throw new ParseException('The text is not a valid IFA PPN code (text is too short).');
-    }
-    if (!text.startsWith('[)>') || text.charCodeAt(3) !== 30) {
-      throw new ParseException('The text is not a valid IFA PPN code (prefix mismatch).');
-    }
-    var endIndex = text.indexOf(String.fromCharCode(30) + String.fromCharCode(4));
-    var data = text.substring(4, endIndex);
-    var parts = data.split(String.fromCharCode(29));
-    if (parts[0] != '06') {
-      throw new ParseException('The text is not a valid IFA PPN code.');
-    }
+  function parseIFAPPNParts(parts) {
     var result = {};
     for (var i = 1; i < parts.length; i++) {
       var part = parts[i];
@@ -80,6 +68,22 @@
       }
     }
     return result;
+  }
+
+  DrugCodeParser.parseIFAPPN = function(text) {
+    if (typeof text === 'undefined' || text.length < 8) {
+      throw new ParseException('The text is not a valid IFA PPN code (text is too short).');
+    }
+    if (!text.startsWith('[)>') || text.charCodeAt(3) !== 30) {
+      throw new ParseException('The text is not a valid IFA PPN code (prefix mismatch).');
+    }
+    var endIndex = text.indexOf(String.fromCharCode(30) + String.fromCharCode(4));
+    var data = text.substring(4, endIndex);
+    var parts = data.split(String.fromCharCode(29));
+    if (parts[0] != '06') {
+      throw new ParseException('The text is not a valid IFA PPN code.');
+    }
+    return parseIFAPPNParts(parts);
   }
 
   /* istanbul ignore next */
