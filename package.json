@@ -1,0 +1,23 @@
+{
+  "name": "drug-code-parser",
+  "version": "0.1.0",
+  "description": "Parser library for drug information from pharmaceutical packaging and more.",
+  "main": "DrugCodeParser.js",
+  "scripts": {
+    "test": "./node_modules/.bin/jasmine-node ./test",
+    "build": "uglifyjs DrugCodeParser.js --compress --mangle --warn --output DrugCodeParser.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AstrorEnales/drug-code-parser.git"
+  },
+  "author": "Marcel Friedrichs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AstrorEnales/drug-code-parser/issues"
+  },
+  "homepage": "https://github.com/AstrorEnales/drug-code-parser#readme",
+  "devDependencies": {
+    "jasmine-node": "^1.16.2"
+  }
+}
