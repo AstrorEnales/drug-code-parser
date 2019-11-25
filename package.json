@@ -1,6 +1,6 @@
 {
   "name": "drug-code-parser",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "description": "Parser library for drug information from pharmaceutical packaging and more.",
   "main": "DrugCodeParser.js",
   "scripts": {
@@ -10,6 +10,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AstrorEnales/drug-code-parser.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   },
   "author": "Marcel Friedrichs",
   "license": "MIT",
