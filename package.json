@@ -18,8 +18,8 @@
   },
   "homepage": "https://github.com/AstrorEnales/drug-code-parser#readme",
   "devDependencies": {
-    "codecov": "^3.1.0",
+    "codecov": "^3.6.1",
     "istanbul": "^0.4.5",
-    "jasmine-node": "^1.16.2"
+    "jasmine-node": "^3.0.0"
   }
 }
